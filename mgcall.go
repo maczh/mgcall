@@ -1,22 +1,25 @@
 package mgcall
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/levigross/grequests"
 	"github.com/maczh/logs"
 	"github.com/maczh/mgcache"
 	config "github.com/maczh/mgconfig"
 	"github.com/maczh/mgtrace"
+	"github.com/nacos-group/nacos-sdk-go/model"
+	"github.com/nacos-group/nacos-sdk-go/vo"
+	"math/rand"
+	"strconv"
+	"strings"
 	"time"
 )
 
 //微服务调用其他服务的接口
 func Call(service string, uri string, params map[string]string) (string, error) {
-	host := ""
-	if mgcache.OnGetCache("nacos").IsExist(service) {
-		h, _ := mgcache.OnGetCache("nacos").Value(service)
-		host = h.(string)
-	} else {
+	host, err := getHostFromCache(service)
+	if err != nil || host == "" {
 		discovery := config.GetConfigString("go.discovery")
 		if discovery == "" {
 			discovery = "nacos"
@@ -42,7 +45,33 @@ func Call(service string, uri string, params map[string]string) (string, error) 
 	})
 	logs.Debug("Nacos微服务返回结果:{}", resp.String())
 	if err != nil {
-		return "", err
+		mgcache.OnGetCache("nacos").Delete(service)
+		discovery := config.GetConfigString("go.discovery")
+		if discovery == "" {
+			discovery = "nacos"
+		}
+		switch discovery {
+		case "nacos":
+			host = config.GetNacosServiceURL(service)
+		case "consul":
+			host = config.GetConsulServiceURL(service)
+		}
+		if host != "" {
+			mgcache.OnGetCache("nacos").Add(service, host, 5*time.Minute)
+		} else {
+			return "", errors.New("微服务获取" + service + "服务主机IP端口失败")
+		}
+		url = host + uri
+		resp, err = grequests.Post(url, &grequests.RequestOptions{
+			Data:    params,
+			Headers: header,
+		})
+		logs.Debug("Nacos微服务返回结果:{}", resp.String())
+		if err != nil {
+			return "", err
+		} else {
+			return resp.String(), nil
+		}
 	} else {
 		return resp.String(), err
 	}
@@ -50,11 +79,8 @@ func Call(service string, uri string, params map[string]string) (string, error) 
 
 //微服务调用其他服务的接口,带header
 func CallWithHeader(service string, uri string, params map[string]string, header map[string]string) (string, error) {
-	host := ""
-	if mgcache.OnGetCache("nacos").IsExist(service) {
-		h, _ := mgcache.OnGetCache("nacos").Value(service)
-		host = h.(string)
-	} else {
+	host, err := getHostFromCache(service)
+	if err != nil || host == "" {
 		discovery := config.GetConfigString("go.discovery")
 		if discovery == "" {
 			discovery = "nacos"
@@ -80,7 +106,33 @@ func CallWithHeader(service string, uri string, params map[string]string, header
 	})
 	logs.Debug("Nacos微服务返回结果:{}", resp.String())
 	if err != nil {
-		return "", err
+		mgcache.OnGetCache("nacos").Delete(service)
+		discovery := config.GetConfigString("go.discovery")
+		if discovery == "" {
+			discovery = "nacos"
+		}
+		switch discovery {
+		case "nacos":
+			host = config.GetNacosServiceURL(service)
+		case "consul":
+			host = config.GetConsulServiceURL(service)
+		}
+		if host != "" {
+			mgcache.OnGetCache("nacos").Add(service, host, 5*time.Minute)
+		} else {
+			return "", errors.New("微服务获取" + service + "服务主机IP端口失败")
+		}
+		url = host + uri
+		resp, err = grequests.Post(url, &grequests.RequestOptions{
+			Data:    params,
+			Headers: header,
+		})
+		logs.Debug("Nacos微服务返回结果:{}", resp.String())
+		if err != nil {
+			return "", err
+		} else {
+			return resp.String(), nil
+		}
 	} else {
 		return resp.String(), err
 	}
@@ -88,11 +140,8 @@ func CallWithHeader(service string, uri string, params map[string]string, header
 
 //微服务调用其他服务的接口,带文件
 func CallWithFiles(service string, uri string, params map[string]string, files []grequests.FileUpload) (string, error) {
-	host := ""
-	if mgcache.OnGetCache("nacos").IsExist(service) {
-		h, _ := mgcache.OnGetCache("nacos").Value(service)
-		host = h.(string)
-	} else {
+	host, err := getHostFromCache(service)
+	if err != nil || host == "" {
 		discovery := config.GetConfigString("go.discovery")
 		if discovery == "" {
 			discovery = "nacos"
@@ -119,8 +168,99 @@ func CallWithFiles(service string, uri string, params map[string]string, files [
 	})
 	logs.Debug("Nacos微服务返回结果:{}", resp.String())
 	if err != nil {
-		return "", err
+		mgcache.OnGetCache("nacos").Delete(service)
+		discovery := config.GetConfigString("go.discovery")
+		if discovery == "" {
+			discovery = "nacos"
+		}
+		switch discovery {
+		case "nacos":
+			host = config.GetNacosServiceURL(service)
+		case "consul":
+			host = config.GetConsulServiceURL(service)
+		}
+		if host != "" {
+			mgcache.OnGetCache("nacos").Add(service, host, 5*time.Minute)
+		} else {
+			return "", errors.New("微服务获取" + service + "服务主机IP端口失败")
+		}
+		url = host + uri
+		resp, err = grequests.Post(url, &grequests.RequestOptions{
+			Data:    params,
+			Headers: header,
+		})
+		logs.Debug("Nacos微服务返回结果:{}", resp.String())
+		if err != nil {
+			return "", err
+		} else {
+			return resp.String(), nil
+		}
 	} else {
 		return resp.String(), err
+	}
+}
+
+func getHostFromCache(serviceName string) (string, error) {
+	h, _ := mgcache.OnGetCache("nacos").Value(serviceName)
+	if h == nil {
+		logs.Debug("{}服务无缓存", serviceName)
+		subscribeNacos(serviceName)
+		return "", errors.New("无此服务缓存")
+	} else {
+		hosts := strings.Split(h.(string), ",")
+		r := rand.New(rand.NewSource(time.Now().UnixNano()))
+		return hosts[r.Intn(len(hosts))], nil
+	}
+}
+
+func subscribeNacos(serviceName string) {
+	logs.Debug("Nacos微服务订阅服务名:{}", serviceName)
+	err := config.Nacos.Subscribe(&vo.SubscribeParam{
+		ServiceName: serviceName,
+		Clusters:    []string{"DEFAULT"},
+		GroupName:   "DEFAULT_GROUP",
+		SubscribeCallback: func(services []model.SubscribeService, err error) {
+			subscribeNacosCallback(services, err)
+		},
+	})
+	if err != nil {
+		logs.Error("Nacos订阅错误:{}", err.Error())
+	}
+}
+
+func subscribeNacosCallback(services []model.SubscribeService, err error) {
+	logs.Debug("Nacos回调:{}", services)
+	if err != nil {
+		logs.Error("Nacos订阅回调错误:{}", err.Error())
+		return
+	}
+	if services == nil || len(services) == 0 {
+		logs.Error("Nacos订阅回调服务列表为空")
+		return
+	}
+	servicesMap := make(map[string]string)
+	for _, s := range services {
+		if servicesMap[s.ServiceName] == "" {
+			servicesMap[s.ServiceName] = "http://" + s.Ip + ":" + s.Ip + strconv.Itoa(int(s.Port))
+		} else {
+			servicesMap[s.ServiceName] = servicesMap[s.ServiceName] + ",http://" + s.Ip + ":" + s.Ip + strconv.Itoa(int(s.Port))
+		}
+	}
+	for serviceName, host := range servicesMap {
+		mgcache.OnGetCache("nacos").Delete(serviceName)
+		mgcache.OnGetCache("nacos").Add(serviceName, host, 5*time.Minute)
+	}
+}
+
+func toJSON(o interface{}) string {
+	j, err := json.Marshal(o)
+	if err != nil {
+		return "{}"
+	} else {
+		js := string(j)
+		js = strings.Replace(js, "\\u003c", "<", -1)
+		js = strings.Replace(js, "\\u003e", ">", -1)
+		js = strings.Replace(js, "\\u0026", "&", -1)
+		return js
 	}
 }
