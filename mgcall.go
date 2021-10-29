@@ -63,8 +63,9 @@ func Call(service string, uri string, params map[string]string) (string, error) 
 		}
 		url = host + uri
 		resp, err = grequests.Post(url, &grequests.RequestOptions{
-			Data:    params,
-			Headers: header,
+			Data:               params,
+			Headers:            header,
+			InsecureSkipVerify: true,
 		})
 		logs.Debug("Nacos微服务返回结果:{}", resp.String())
 		if err != nil {
@@ -101,8 +102,9 @@ func CallWithHeader(service string, uri string, params map[string]string, header
 	header["X-Request-Id"] = mgtrace.GetRequestId()
 	logs.Debug("Nacos微服务请求:{}\n请求参数:{}\n请求头:{}", url, params, header)
 	resp, err := grequests.Post(url, &grequests.RequestOptions{
-		Data:    params,
-		Headers: header,
+		Data:               params,
+		Headers:            header,
+		InsecureSkipVerify: true,
 	})
 	logs.Debug("Nacos微服务返回结果:{}", resp.String())
 	if err != nil {
@@ -162,9 +164,10 @@ func CallWithFiles(service string, uri string, params map[string]string, files [
 	header := map[string]string{"X-Request-Id": mgtrace.GetRequestId()}
 	logs.Debug("Nacos微服务请求:{}\n请求参数:{}", url, params)
 	resp, err := grequests.Post(url, &grequests.RequestOptions{
-		Data:    params,
-		Files:   files,
-		Headers: header,
+		Data:               params,
+		Files:              files,
+		Headers:            header,
+		InsecureSkipVerify: true,
 	})
 	logs.Debug("Nacos微服务返回结果:{}", resp.String())
 	if err != nil {
