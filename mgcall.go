@@ -18,68 +18,14 @@ import (
 
 //微服务调用其他服务的接口
 func Call(service string, uri string, params map[string]string) (string, error) {
-	host, err := getHostFromCache(service)
-	if err != nil || host == "" {
-		discovery := mgconfig.GetConfigString("go.discovery")
-		if discovery == "" {
-			discovery = "nacos"
-		}
-		switch discovery {
-		case "nacos":
-			host = mgconfig.GetNacosServiceURL(service)
-		case "consul":
-			host = mgconfig.GetConsulServiceURL(service)
-		}
-		if host != "" {
-			mgcache.OnGetCache("nacos").Add(service, host, 5*time.Minute)
-		} else {
-			return "", errors.New("微服务获取" + service + "服务主机IP端口失败")
-		}
-	}
-	url := host + uri
-	logs.Debug("Nacos微服务请求:{}\n请求参数:{}", url, params)
-	header := map[string]string{"X-Request-Id": mgtrace.GetRequestId()}
-	resp, err := grequests.Post(url, &grequests.RequestOptions{
-		Data:               params,
-		Headers:            header,
-		InsecureSkipVerify: true,
-	})
-	logs.Debug("Nacos微服务返回结果:{}", resp.String())
-	if err != nil {
-		mgcache.OnGetCache("nacos").Delete(service)
-		discovery := mgconfig.GetConfigString("go.discovery")
-		if discovery == "" {
-			discovery = "nacos"
-		}
-		switch discovery {
-		case "nacos":
-			host = mgconfig.GetNacosServiceURL(service)
-		case "consul":
-			host = mgconfig.GetConsulServiceURL(service)
-		}
-		if host != "" {
-			mgcache.OnGetCache("nacos").Add(service, host, 5*time.Minute)
-		} else {
-			return "", errors.New("微服务获取" + service + "服务主机IP端口失败")
-		}
-		url = host + uri
-		resp, err = grequests.Post(url, &grequests.RequestOptions{
-			Data:               params,
-			Headers:            header,
-			InsecureSkipVerify: true,
-		})
-		logs.Debug("Nacos微服务返回结果:{}", resp.String())
-		if err != nil {
-			return "", err
-		} else {
-			return resp.String(), nil
-		}
-	} else {
-		return resp.String(), err
-	}
+	return CallWithHeader(service, uri, params, map[string]string{})
 }
 
 func Get(service string, uri string, params map[string]string) (string, error) {
+	return GetWithHeader(service, uri, params, map[string]string{})
+}
+
+func GetWithHeader(service string, uri string, params map[string]string, header map[string]string) (string, error) {
 	host, err := getHostFromCache(service)
 	if err != nil || host == "" {
 		discovery := mgconfig.GetConfigString("go.discovery")
@@ -100,7 +46,7 @@ func Get(service string, uri string, params map[string]string) (string, error) {
 	}
 	url := host + uri
 	logs.Debug("Nacos微服务请求:{}\n请求参数:{}", url, params)
-	header := map[string]string{"X-Request-Id": mgtrace.GetRequestId()}
+	header["X-Request-Id"] = mgtrace.GetRequestId()
 	resp, err := grequests.Get(url, &grequests.RequestOptions{
 		Params:             params,
 		Headers:            header,
@@ -203,8 +149,12 @@ func CallWithHeader(service string, uri string, params map[string]string, header
 	}
 }
 
-//微服务调用其他服务的接口,带文件
 func CallWithFiles(service string, uri string, params map[string]string, files []grequests.FileUpload) (string, error) {
+	return CallWithFilesHeader(service, uri, params, files, map[string]string{})
+}
+
+//微服务调用其他服务的接口,带文件
+func CallWithFilesHeader(service string, uri string, params map[string]string, files []grequests.FileUpload, header map[string]string) (string, error) {
 	host, err := getHostFromCache(service)
 	if err != nil || host == "" {
 		discovery := mgconfig.GetConfigString("go.discovery")
@@ -224,7 +174,7 @@ func CallWithFiles(service string, uri string, params map[string]string, files [
 		}
 	}
 	url := host + uri
-	header := map[string]string{"X-Request-Id": mgtrace.GetRequestId()}
+	header["X-Request-Id"] = mgtrace.GetRequestId()
 	logs.Debug("Nacos微服务请求:{}\n请求参数:{}", url, params)
 	resp, err := grequests.Post(url, &grequests.RequestOptions{
 		Data:               params,
