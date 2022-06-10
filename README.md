@@ -9,6 +9,7 @@ go get -u github.com/maczh/mgcall
 + 在配置中必须指定服务注册中心类型 go.discovery，不指定为nacos
 + 在配置引用go.config.used中指定nacos或consul
 + 配置服务器中必须要有相应的nacos或consul配置文件
++ 增加Restful模式调用 RestfulWithHeader 函数
 
 ## 使用范例
 ```go

@@ -5,11 +5,11 @@ go 1.17
 require (
 	github.com/levigross/grequests v0.0.0-20190908174114-253788527a1a
 	github.com/maczh/logs v1.0.2
-	github.com/maczh/mgcache v1.0.0
-	github.com/maczh/mgconfig v1.0.8
+	github.com/maczh/mgcache v1.0.1
+	github.com/maczh/mgconfig v1.1.0
 	github.com/maczh/mgerr v1.0.2
 	github.com/maczh/mgtrace v1.0.0
-	github.com/nacos-group/nacos-sdk-go v1.0.9
+	github.com/nacos-group/nacos-sdk-go v1.1.1
 )
 
 require (
@@ -22,7 +22,7 @@ require (
 	github.com/beltran/gssapi v0.0.0-20200324152954-d86554db4bab // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bitly/go-hostpool v0.1.0 // indirect
-	github.com/buger/jsonparser v0.0.0-20181115193947-bf1c66bbce23 // indirect
+	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/couchbase/gocb/v2 v2.3.3 // indirect
 	github.com/couchbase/gocbcore/v10 v10.0.4 // indirect
@@ -38,7 +38,7 @@ require (
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/go-redis/redis v6.15.9+incompatible // indirect
-	github.com/go-sql-driver/mysql v1.5.0 // indirect
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/go-zookeeper/zk v1.0.2 // indirect
 	github.com/gofrs/uuid v4.1.0+incompatible // indirect
 	github.com/golang-sql/civil v0.0.0-20190719163853-cb61b32ac6fe // indirect
@@ -58,6 +58,7 @@ require (
 	github.com/influxdata/line-protocol v0.0.0-20200327222509-2487e7298839 // indirect
 	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -65,8 +66,6 @@ require (
 	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
-	github.com/lestrrat/go-file-rotatelogs v0.0.0-20180223000712-d3151e2a480f // indirect
-	github.com/lestrrat/go-strftime v0.0.0-20180220042222-ba3bf9c1d042 // indirect
 	github.com/lib/pq v1.1.1 // indirect
 	github.com/maczh/gintool v1.0.2 // indirect
 	github.com/maczh/utils v1.0.0 // indirect
@@ -91,11 +90,9 @@ require (
 	github.com/prometheus/procfs v0.6.0 // indirect
 	github.com/sadlil/gologger v0.0.0-20180131031757-2507bf651df8 // indirect
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 // indirect
-	github.com/silenceper/pool v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.6.0 // indirect
 	github.com/socifi/jazz v0.0.0-20190320083647-de4180400893 // indirect
 	github.com/streadway/amqp v1.0.0 // indirect
-	github.com/toolkits/concurrent v0.0.0-20150624120057-a4371d70e3e3 // indirect
 	github.com/tsuna/gohbase v0.0.0-20211021135033-7498896f8173 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	go.opentelemetry.io/otel v1.0.1 // indirect
@@ -103,15 +100,19 @@ require (
 	go.uber.org/atomic v1.6.0 // indirect
 	go.uber.org/multierr v1.5.0 // indirect
 	go.uber.org/zap v1.15.0 // indirect
-	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781 // indirect
+	golang.org/x/sync v0.0.0-20201207232520-09787c993a3a // indirect
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
-	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/tools v0.0.0-20201224043029-2b0845dc783e // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/protobuf v1.26.0 // indirect
 	gopkg.in/ini.v1 v1.42.0 // indirect
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22 // indirect
+	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gorm.io/driver/mysql v1.3.4 // indirect
+	gorm.io/gorm v1.23.5 // indirect
 	modernc.org/b v1.0.0 // indirect
 )
