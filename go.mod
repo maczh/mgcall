@@ -4,10 +4,10 @@ go 1.17
 
 require (
 	github.com/levigross/grequests v0.0.0-20190908174114-253788527a1a
-	github.com/maczh/logs v1.0.2
+	github.com/maczh/logs v1.0.3
 	github.com/maczh/mgcache v1.0.1
 	github.com/maczh/mgconfig v1.1.0
-	github.com/maczh/mgerr v1.0.2
+	github.com/maczh/mgerr v1.0.4
 	github.com/maczh/mgtrace v1.0.0
 	github.com/nacos-group/nacos-sdk-go v1.1.1
 )
@@ -15,6 +15,7 @@ require (
 require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 // indirect
 	github.com/apache/thrift v0.14.1 // indirect
+	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de // indirect
 	github.com/araddon/gou v0.0.0-20211019181548-e7d08105776c // indirect
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
 	github.com/beltran/gohive v1.5.2 // indirect
@@ -67,8 +68,8 @@ require (
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/lib/pq v1.1.1 // indirect
-	github.com/maczh/gintool v1.0.2 // indirect
-	github.com/maczh/utils v1.0.0 // indirect
+	github.com/maczh/gintool v1.0.5 // indirect
+	github.com/maczh/utils v1.0.7 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattbaird/elastigo v0.0.0-20170123220020-2fe47fd29e4b // indirect
 	github.com/mattn/go-colorable v0.1.8 // indirect
