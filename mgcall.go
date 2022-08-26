@@ -36,7 +36,7 @@ func GetWithHeader(service string, uri string, params map[string]string, header 
 		}
 		switch discovery {
 		case "nacos":
-			group, host = mgconfig.GetNacosServiceURL(service)
+			host, group = mgconfig.GetNacosServiceURL(service)
 			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
 				subscribeNacos(service, group)
 				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
@@ -68,7 +68,7 @@ func GetWithHeader(service string, uri string, params map[string]string, header 
 		}
 		switch discovery {
 		case "nacos":
-			group, host = mgconfig.GetNacosServiceURL(service)
+			host, group = mgconfig.GetNacosServiceURL(service)
 			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
 				subscribeNacos(service, group)
 				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
@@ -109,7 +109,7 @@ func CallWithHeader(service string, uri string, params map[string]string, header
 		}
 		switch discovery {
 		case "nacos":
-			group, host = mgconfig.GetNacosServiceURL(service)
+			host, group = mgconfig.GetNacosServiceURL(service)
 			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
 				subscribeNacos(service, group)
 				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
@@ -141,7 +141,7 @@ func CallWithHeader(service string, uri string, params map[string]string, header
 		}
 		switch discovery {
 		case "nacos":
-			group, host = mgconfig.GetNacosServiceURL(service)
+			host, group = mgconfig.GetNacosServiceURL(service)
 			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
 				subscribeNacos(service, group)
 				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
@@ -185,7 +185,7 @@ func CallWithFilesHeader(service string, uri string, params map[string]string, f
 		}
 		switch discovery {
 		case "nacos":
-			group, host = mgconfig.GetNacosServiceURL(service)
+			host, group = mgconfig.GetNacosServiceURL(service)
 			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
 				subscribeNacos(service, group)
 				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
@@ -218,7 +218,7 @@ func CallWithFilesHeader(service string, uri string, params map[string]string, f
 		}
 		switch discovery {
 		case "nacos":
-			group, host = mgconfig.GetNacosServiceURL(service)
+			host, group = mgconfig.GetNacosServiceURL(service)
 			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
 				subscribeNacos(service, group)
 				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)

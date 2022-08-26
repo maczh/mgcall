@@ -24,7 +24,7 @@ func RestfulWithHeader(method, service string, uri string, pathparams map[string
 		}
 		switch discovery {
 		case "nacos":
-			group, host = mgconfig.GetNacosServiceURL(service)
+			host, group = mgconfig.GetNacosServiceURL(service)
 			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
 				subscribeNacos(service, group)
 				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
@@ -94,7 +94,7 @@ func RestfulWithHeader(method, service string, uri string, pathparams map[string
 		}
 		switch discovery {
 		case "nacos":
-			group, host = mgconfig.GetNacosServiceURL(service)
+			host, group = mgconfig.GetNacosServiceURL(service)
 			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
 				subscribeNacos(service, group)
 				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
