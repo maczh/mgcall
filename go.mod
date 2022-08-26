@@ -4,9 +4,9 @@ go 1.17
 
 require (
 	github.com/levigross/grequests v0.0.0-20190908174114-253788527a1a
-	github.com/maczh/logs v1.0.3
+	github.com/maczh/logs v1.0.4
 	github.com/maczh/mgcache v1.0.1
-	github.com/maczh/mgconfig v1.1.8
+	github.com/maczh/mgconfig v1.1.11
 	github.com/maczh/mgerr v1.0.6
 	github.com/maczh/mgtrace v1.0.1
 	github.com/nacos-group/nacos-sdk-go v1.1.1
@@ -66,6 +66,7 @@ require (
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lib/pq v1.1.1 // indirect
 	github.com/maczh/gintool v1.0.7 // indirect
+	github.com/maczh/jazz v1.0.0 // indirect
 	github.com/maczh/utils v1.0.9 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattbaird/elastigo v0.0.0-20170123220020-2fe47fd29e4b // indirect
@@ -90,7 +91,6 @@ require (
 	github.com/sadlil/gologger v0.0.0-20180131031757-2507bf651df8 // indirect
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 // indirect
 	github.com/sirupsen/logrus v1.6.0 // indirect
-	github.com/socifi/jazz v0.0.0-20190320083647-de4180400893 // indirect
 	github.com/streadway/amqp v1.0.0 // indirect
 	github.com/tsuna/gohbase v0.0.0-20211021135033-7498896f8173 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect

@@ -16,6 +16,7 @@ import (
 
 func RestfulWithHeader(method, service string, uri string, pathparams map[string]string, header map[string]string, body interface{}) (string, error) {
 	host, err := getHostFromCache(service)
+	group := "DEFAULT_GROUP"
 	if err != nil || host == "" {
 		discovery := mgconfig.GetConfigString("go.discovery")
 		if discovery == "" {
@@ -23,7 +24,11 @@ func RestfulWithHeader(method, service string, uri string, pathparams map[string
 		}
 		switch discovery {
 		case "nacos":
-			host = mgconfig.GetNacosServiceURL(service)
+			group, host = mgconfig.GetNacosServiceURL(service)
+			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
+				subscribeNacos(service, group)
+				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
+			}
 		case "consul":
 			host = mgconfig.GetConsulServiceURL(service)
 		}
@@ -89,7 +94,11 @@ func RestfulWithHeader(method, service string, uri string, pathparams map[string
 		}
 		switch discovery {
 		case "nacos":
-			host = mgconfig.GetNacosServiceURL(service)
+			group, host = mgconfig.GetNacosServiceURL(service)
+			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
+				subscribeNacos(service, group)
+				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
+			}
 		case "consul":
 			host = mgconfig.GetConsulServiceURL(service)
 		}
