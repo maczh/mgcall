@@ -16,7 +16,7 @@ import (
 
 func RestfulWithHeader(method, service string, uri string, pathparams map[string]string, header map[string]string, body interface{}) (string, error) {
 	host, err := getHostFromCache(service)
-	group := "DEFAULT_GROUP"
+	//group := "DEFAULT_GROUP"
 	if err != nil || host == "" {
 		discovery := mgconfig.GetConfigString("go.discovery")
 		if discovery == "" {
@@ -24,16 +24,16 @@ func RestfulWithHeader(method, service string, uri string, pathparams map[string
 		}
 		switch discovery {
 		case "nacos":
-			host, group = mgconfig.GetNacosServiceURL(service)
-			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
-				subscribeNacos(service, group)
-				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
-			}
+			host = mgconfig.GetNacosServiceURL(service)
+			//if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
+			//	subscribeNacos(service, group)
+			//	mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
+			//}
 		case "consul":
 			host = mgconfig.GetConsulServiceURL(service)
 		}
 		if host != "" {
-			mgcache.OnGetCache("nacos").Add(service, host, 5*time.Minute)
+			mgcache.OnGetCache("nacos").Add(service, host, 1*time.Minute)
 		} else {
 			return "", errors.New("微服务获取" + service + "服务主机IP端口失败")
 		}
@@ -94,16 +94,16 @@ func RestfulWithHeader(method, service string, uri string, pathparams map[string
 		}
 		switch discovery {
 		case "nacos":
-			host, group = mgconfig.GetNacosServiceURL(service)
-			if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
-				subscribeNacos(service, group)
-				mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
-			}
+			host = mgconfig.GetNacosServiceURL(service)
+			//if host != "" && !mgcache.OnGetCache("nacos").IsExist("nacos:subscribe:"+service) {
+			//	subscribeNacos(service, group)
+			//	mgcache.OnGetCache("nacos").Add("nacos:subscribe:"+service, "true", 0)
+			//}
 		case "consul":
 			host = mgconfig.GetConsulServiceURL(service)
 		}
 		if host != "" {
-			mgcache.OnGetCache("nacos").Add(service, host, 5*time.Minute)
+			mgcache.OnGetCache("nacos").Add(service, host, 1*time.Minute)
 		} else {
 			return "", errors.New("微服务获取" + service + "服务主机IP端口失败")
 		}
