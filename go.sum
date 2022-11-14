@@ -272,8 +272,8 @@ github.com/maczh/mgconfig v1.1.11 h1:+Hv3CB4qXhXbUCJ743T69ve8YygQehwbjoBzoFhmBRU
 github.com/maczh/mgconfig v1.1.11/go.mod h1:EwX+0a2ILAJjCxbY38fM7VDcZFKtC605sNdrodd08Q8=
 github.com/maczh/mgerr v1.0.6 h1:8J6O08owczaYh/UBXj003WgI9sYg0Nl4qAgfCmAwOgM=
 github.com/maczh/mgerr v1.0.6/go.mod h1:flcMvWHa0ZnZE/xLm/vueaxBi5vpKkxNgkncaI2rPnw=
-github.com/maczh/mgtrace v1.0.2 h1:Y40GRhWY2eHjjh76vhd7zvMSkQai5fF2bEb5RwefkCA=
-github.com/maczh/mgtrace v1.0.2/go.mod h1:OBuYeNzJyJIeXJsXY8TH/3l6ZHarpMtgZO++Z3iUR7A=
+github.com/maczh/mgtrace v1.0.3 h1:JIWvVAI8t7YizKq0Pv44auWHlQqjuoKpa7eGkUW4L6U=
+github.com/maczh/mgtrace v1.0.3/go.mod h1:OBuYeNzJyJIeXJsXY8TH/3l6ZHarpMtgZO++Z3iUR7A=
 github.com/maczh/utils v1.0.9 h1:mAaKs1y9Hw8INPe1zb8tsScT+1CaBm7aIm+M5qjOF00=
 github.com/maczh/utils v1.0.9/go.mod h1:U9mSIpa9ppP/wqeOYxQIiFwvxktKsrP6ynBlovIzPc8=
 github.com/mailru/easyjson v0.0.0-20190614124828-94de47d64c63/go.mod h1:C1wdFJiN94OJF2b5HbByQZoLdCWB1Yqtg26g4irojpc=
