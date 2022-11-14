@@ -54,6 +54,8 @@ func GetWithHeader(service string, uri string, params map[string]string, header 
 	logs.Debug("Nacos微服务请求:{}\n请求参数:{}", url, params)
 	header["X-Request-Id"] = mgtrace.GetRequestId()
 	header["X-Lang"] = mgerr.GetCurrentLanguage()
+	header["X-Real-IP"] = mgtrace.GetClientIp()
+	header["X-User-Agent"] = mgtrace.GetUserAgent()
 	resp, err := grequests.Get(url, &grequests.RequestOptions{
 		Params:             params,
 		Headers:            header,
@@ -126,6 +128,8 @@ func CallWithHeader(service string, uri string, params map[string]string, header
 	url := host + uri
 	header["X-Request-Id"] = mgtrace.GetRequestId()
 	header["X-Lang"] = mgerr.GetCurrentLanguage()
+	header["X-Real-IP"] = mgtrace.GetClientIp()
+	header["X-User-Agent"] = mgtrace.GetUserAgent()
 	logs.Debug("Nacos微服务请求:{}\n请求参数:{}\n请求头:{}", url, params, header)
 	resp, err := grequests.Post(url, &grequests.RequestOptions{
 		Data:               params,
@@ -202,6 +206,8 @@ func CallWithFilesHeader(service string, uri string, params map[string]string, f
 	url := host + uri
 	header["X-Request-Id"] = mgtrace.GetRequestId()
 	header["X-Lang"] = mgerr.GetCurrentLanguage()
+	header["X-Real-IP"] = mgtrace.GetClientIp()
+	header["X-User-Agent"] = mgtrace.GetUserAgent()
 	logs.Debug("Nacos微服务请求:{}\n请求参数:{}", url, params)
 	resp, err := grequests.Post(url, &grequests.RequestOptions{
 		Data:               params,

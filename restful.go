@@ -45,6 +45,8 @@ func RestfulWithHeader(method, service string, uri string, pathparams map[string
 	logs.Debug("Nacos微服务请求:{}\n请求参数:{}", url, body)
 	header["X-Request-Id"] = mgtrace.GetRequestId()
 	header["X-Lang"] = mgerr.GetCurrentLanguage()
+	header["X-Real-IP"] = mgtrace.GetClientIp()
+	header["X-User-Agent"] = mgtrace.GetUserAgent()
 	header["Content-Type"] = "application/json"
 	var resp *grequests.Response
 	switch method {
