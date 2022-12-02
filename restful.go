@@ -7,7 +7,6 @@ import (
 	"github.com/maczh/logs"
 	"github.com/maczh/mgcache"
 	"github.com/maczh/mgconfig"
-	"github.com/maczh/mgerr"
 	"github.com/maczh/mgtrace"
 	"net/url"
 	"strings"
@@ -42,12 +41,17 @@ func RestfulWithHeader(method, service string, uri string, pathparams map[string
 		uri = strings.ReplaceAll(uri, fmt.Sprintf("{%s}", k), url.PathEscape(v))
 	}
 	url := host + uri
-	logs.Debug("Nacos微服务请求:{}\n请求参数:{}", url, body)
-	header["X-Request-Id"] = mgtrace.GetRequestId()
-	header["X-Lang"] = mgerr.GetCurrentLanguage()
-	header["X-Real-IP"] = mgtrace.GetClientIp()
-	header["X-User-Agent"] = mgtrace.GetUserAgent()
+	if header == nil {
+		header = mgtrace.GetHeaders()
+	} else {
+		for k, v := range mgtrace.GetHeaders() {
+			if header[k] == "" {
+				header[k] = v
+			}
+		}
+	}
 	header["Content-Type"] = "application/json"
+	logs.Debug("Nacos微服务请求:{}\n请求参数:{}\n请求头:{}", url, body, header)
 	var resp *grequests.Response
 	switch method {
 	case "GET":

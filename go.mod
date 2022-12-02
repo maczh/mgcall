@@ -8,7 +8,7 @@ require (
 	github.com/maczh/mgcache v1.0.1
 	github.com/maczh/mgconfig v1.1.11
 	github.com/maczh/mgerr v1.0.6
-	github.com/maczh/mgtrace v1.0.3
+	github.com/maczh/mgtrace v1.0.4
 	github.com/nacos-group/nacos-sdk-go v1.1.1
 )
 
