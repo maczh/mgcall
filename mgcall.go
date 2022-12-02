@@ -18,11 +18,11 @@ import (
 
 //微服务调用其他服务的接口
 func Call(service string, uri string, params map[string]string) (string, error) {
-	return CallWithHeader(service, uri, params, map[string]string{})
+	return CallWithHeader(service, uri, params, map[string]string{"Content-Type": "application/x-www-form-urlencoded"})
 }
 
 func Get(service string, uri string, params map[string]string) (string, error) {
-	return GetWithHeader(service, uri, params, map[string]string{})
+	return GetWithHeader(service, uri, params, map[string]string{"Content-Type": "application/x-www-form-urlencoded"})
 }
 
 func GetWithHeader(service string, uri string, params map[string]string, header map[string]string) (string, error) {
@@ -222,6 +222,7 @@ func CallWithFilesHeader(service string, uri string, params map[string]string, f
 			}
 		}
 	}
+	delete(header, "Content-Type")
 	logs.Debug("Nacos微服务请求:{}\n请求参数:{}\n请求头:{}", url, params, header)
 	resp, err := grequests.Post(url, &grequests.RequestOptions{
 		Data:               params,
